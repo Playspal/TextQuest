@@ -22,12 +22,12 @@ public class UiScreenPopulationItem : UiVerticalListItem
         
         List<string> effects = new List<string>();
 
-        if(questCharacter.IsSufferingByHunger)
+        if(questCharacter.Effects.Contains(QuestCharacterEffectType.Starvation))
         {
             effects.Add("Страдает от голода");
         }
         
-        if(questCharacter.IsSufferingByThirst)
+        if(questCharacter.Effects.Contains(QuestCharacterEffectType.Thirst))
         {
             effects.Add("Страдает от жажды");
         }

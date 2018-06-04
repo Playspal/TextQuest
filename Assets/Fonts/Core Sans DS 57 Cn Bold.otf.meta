@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: a68ecb036afd040938b2027b1fe9a6fa
+timeCreated: 1525871907
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Core Sans DS
+  fontNames:
+  - Core Sans DS
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 45d05d56962478f4a954638a77892a33, type: 3}
+  - {fileID: 12800000, guid: b1562d97594b085469c12910bf866d70, type: 3}
+  - {fileID: 12800000, guid: 8d92402a5fc5c6c4a951fef4103f3a99, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class QuestCharacter
 {
+    public event Action<QuestCharacter, QuestCharacterEffectType> OnEffectAdded;
+    public event Action<QuestCharacter, QuestCharacterEffectType> OnEffectRemoved;
     public event Action<QuestCharacter> OnDeath;
 
     public string Name = "Unnamed";
@@ -11,16 +13,15 @@ public class QuestCharacter
     public bool IsInShelter = false;
     public bool IsDead = false;
 
-    public bool IsSufferingByHunger = false;
-    public bool IsSufferingByThirst = false;
-
     public QuestCharacterDeathReason DeathReason = QuestCharacterDeathReason.Unknown;
     public QuestCharacterBurialType BurialType = QuestCharacterBurialType.None;
-    
-    public int Health = 100;
-    public int Stamina = 100;
-    public int Thirst = 0;
-    public int Hunger = 0;
+
+    public QuestCharacterEffects Effects = new QuestCharacterEffects();
+
+    public QuestCharacterStatusHealth StatusHealth = new QuestCharacterStatusHealth(100);
+    public QuestCharacterStatusWater StatusWater = new QuestCharacterStatusWater(100);
+    public QuestCharacterStatusFood StatusFood = new QuestCharacterStatusFood(100);
+    public QuestCharacterStatusStamina StatusStamina = new QuestCharacterStatusStamina(100);
     
     public void SetBurialType(QuestCharacterBurialType value)
     {
@@ -31,6 +32,19 @@ public class QuestCharacter
     {
         QuestBuilding building = Quest.Instance.Status.Buildings.GetBuildingByWorker(this);
         return building != null ? building.DescriptionJob : "Ничем не занят";
+    }
+    
+    public void SetEffect(QuestCharacterEffectType effectType, bool value)
+    {
+        if (value && Effects.Add(effectType))
+        {
+            OnEffectAdded.InvokeIfNotNull(this, effectType);
+        }
+        
+        if (!value && Effects.Remove(effectType))
+        {
+            OnEffectRemoved.InvokeIfNotNull(this, effectType);
+        }
     }
     
     public virtual void ProcessHours(int hours)
@@ -53,79 +67,36 @@ public class QuestCharacter
             return;
         }
 
-        IsSufferingByHunger = Hunger >= 100;
-        IsSufferingByThirst = Thirst >= 100;
+        StatusWater.Process();
+        StatusFood.Process();
+        
+        SetEffect(QuestCharacterEffectType.Thirst, StatusWater.IsCritical);
+        SetEffect(QuestCharacterEffectType.Starvation, StatusFood.IsCritical);
 
-        UpdateThirst();
-        
-        if(Hunger > 50)
+        if(StatusWater.IsCritical)
         {
-            if(Quest.Instance.Status.Resources.Food.Value > 0)
-            {
-                Quest.Instance.Status.Resources.Food.Update(-1);
-                Hunger -= 50;
-            }
+            StatusHealth.Update(-2);
+        }
+        
+        if(StatusFood.IsCritical)
+        {
+            StatusHealth.Update(-1);
         }
 
-        if(Hunger < 100 && Hunger + 3 >= 100)
-        {
-            Quest.Instance.AddStory(Name + " страдает от голода.", null);
-        }
-        
-        Hunger += 3;
-        
-        if(Hunger >= 100)
-        {
-            Health -= 1;
-        }
-        
-        if(Health <= 0)
+        if(StatusHealth.IsCritical)
         {
             IsDead = true;
             
-            if(Hunger >= 100)
-            {
-                DeathReason = QuestCharacterDeathReason.Starvation;
-            }
-            else if(Thirst >= 100)
+            if(Effects.Contains(QuestCharacterEffectType.Thirst))
             {
                 DeathReason = QuestCharacterDeathReason.Thirst;
+            }
+            else if(Effects.Contains(QuestCharacterEffectType.Starvation))
+            {
+                DeathReason = QuestCharacterDeathReason.Starvation;
             }
 
             OnDeath.InvokeIfNotNull(this);
         }
-    }
-    
-    private void UpdateThirst()
-    {
-        if(Quest.Instance.Status.Weather.Weather == QuestWeather.Type.Rain)
-        {
-            Thirst -= 5;
-        }
-        else
-        {
-            if(Thirst < 100 && Thirst + 6 >= 100)
-            {
-                Quest.Instance.AddStory(Name + " страдает от жажды.", null);
-            }
-            
-            Thirst += 6;
-        
-            if(Thirst > 25)
-            {
-                if(Quest.Instance.Status.Resources.Water.Value > 0)
-                {
-                    Quest.Instance.Status.Resources.Water.Update(-1);
-                    Thirst -= 25;
-                }
-            }
-            
-            if(Thirst >= 100)
-            {
-                Health -= 2;
-            }
-        }
-        
-        Thirst = Mathf.Clamp(Thirst, 0, 100);
     }
 }

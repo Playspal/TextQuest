@@ -18,8 +18,8 @@ public class UiCharacterStatus : UiObject
 
     public void SetData(QuestCharacter character)
     {
-        _health.text = character.Health + "%";
-        _hunger.text = (100 - character.Hunger) + "%";
-        _thirst.text = (100 - character.Thirst) + "%";
+        _health.text = character.StatusHealth.Value + "%";
+        _hunger.text = character.StatusFood.Value + "%";
+        _thirst.text = character.StatusWater.Value + "%";
     }
 }

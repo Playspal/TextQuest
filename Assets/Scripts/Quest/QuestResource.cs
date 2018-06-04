@@ -15,15 +15,21 @@ public class QuestResource
         Value = value;
     }
     
-    public void Update(int value)
+    /// <summary>
+    /// Update value
+    /// </summary>
+    /// <returns>Returns true if updated. Returns false if trying to decrease minimum value</returns>
+    public bool Update(int value)
     {
+        if(value <= 0 && Value < Mathf.Abs(value))
+        {
+            return false;
+        }
+    
         Value += value;
         
-        if(Value < 0)
-        {
-            Value = 0;
-        }
-        
         OnChange.InvokeIfNotNull(Value, value);
+
+        return true;
     }
 }

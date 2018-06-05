@@ -21,11 +21,9 @@ public class Quest
         Status = new QuestStatus();
         Status.Date.OnHoursPass += (int hours) =>
         {
-            if (Status.IsInShelter)
+            if (Status.CurrentLocation == QuestLocationType.Home)
             {
                 QuestCard card = QuestCards.GetCardByType(QuestCardType.IsInShelter);
-
-                Debug.LogError(" >>> " + card);
 
                 if (card != null)
                 {

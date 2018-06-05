@@ -7,11 +7,11 @@ public class QuestStatus
     public QuestDate Date = new QuestDate();
     public QuestWeather Weather = new QuestWeather();
     public QuestResources Resources = new QuestResources();
-    
+    public QuestLocations Locations = new QuestLocations();
     public QuestBuildings Buildings = new QuestBuildings();
     public QuestCharacters Characters = new QuestCharacters();
 
-    public bool IsInShelter = true;
+    public QuestLocationType CurrentLocation = QuestLocationType.Home;
     
     public QuestStatus()
     {

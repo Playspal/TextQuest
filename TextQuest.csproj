@@ -350,6 +350,9 @@
     <Compile Include="Assets\Scripts\Quest\Characters\QuestCharacterStatusHealth.cs" />
     <Compile Include="Assets\Scripts\Quest\Characters\QuestCharacterStatusStamina.cs" />
     <Compile Include="Assets\Scripts\Quest\Characters\QuestCharacterStatusWater.cs" />
+    <Compile Include="Assets\Scripts\Quest\Locations\QuestLocation.cs" />
+    <Compile Include="Assets\Scripts\Quest\Locations\QuestLocations.cs" />
+    <Compile Include="Assets\Scripts\Quest\Locations\QuestLocationType.cs" />
     <Compile Include="Assets\Scripts\Quest\Quest.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestAction.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestBoolean.cs" />
@@ -392,6 +395,7 @@
     <Compile Include="Assets\Scripts\Ui\UiPopupConfirm.cs" />
     <Compile Include="Assets\Scripts\Ui\UiPopupConfirmCard.cs" />
     <Compile Include="Assets\Scripts\Ui\UiScreenMap.cs" />
+    <Compile Include="Assets\Scripts\Ui\UiScreenMapItem.cs" />
     <Compile Include="Assets\Scripts\Ui\UiScreenPopulation.cs" />
     <Compile Include="Assets\Scripts\Ui\UiScreenPopulationItem.cs" />
     <Compile Include="Assets\Scripts\Ui\UiScreenTown.cs" />

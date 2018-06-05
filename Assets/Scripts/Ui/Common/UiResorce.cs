@@ -21,6 +21,23 @@ public class UiResorce : UiObject
     
     private string GetAssetName(QuestResourceType type)
     {
+        return GetSpritePathByType(type);
+    }
+    
+    public static Sprite GetSpriteByType(QuestResourceType type)
+    {
+        string path = GetSpritePathByType(type);
+        
+        if(string.IsNullOrEmpty(path))
+        {
+            return null;
+        }
+
+        return Resources.Load<Sprite>(path);
+    }
+    
+    public static string GetSpritePathByType(QuestResourceType type)
+    {
         string root = "Sprites/Ui/Icons/";
         
         switch(type)

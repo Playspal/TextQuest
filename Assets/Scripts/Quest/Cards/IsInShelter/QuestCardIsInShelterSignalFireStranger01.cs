@@ -11,6 +11,7 @@
     {
         return
         (
+            Quest.Instance.Status.CurrentLocation == QuestLocationType.Home &&
             Quest.Instance.Status.Buildings.IsBuilded(QuestBuildingType.SignalFire)
          );
     }

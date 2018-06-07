@@ -6,12 +6,16 @@ using UnityEngine;
 public class QuestLocations
 {
     public List<QuestLocation> Locations { get; private set; }
+    public QuestLocation Home;
 
     public QuestLocations()
     {
-        Locations = new List<QuestLocation>();
+        Home = Create(QuestLocationType.Home, Vector2.zero);
 
-        Locations.Add(Create(QuestLocationType.Home, Vector2.zero));
+        Locations = new List<QuestLocation>()
+        {
+            Home
+        };
 
         for (int i = 0; i < 10; i++)
         {

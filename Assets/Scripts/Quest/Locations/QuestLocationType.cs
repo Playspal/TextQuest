@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum QuestLocationType
 {
+    Wasteland,
+
     Home,
     Church
 }

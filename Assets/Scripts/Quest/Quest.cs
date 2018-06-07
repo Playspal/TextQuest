@@ -6,9 +6,10 @@ public class Quest
 {
     public static Quest Instance;
 
-
     public bool IsPause = false;
-    public QuestStatus Status;
+    
+    public QuestStatus Status { get; private set; }
+    public QuestAdventure Adventure { get; private set; }
 
     public List<QuestEvent> Queue = new List<QuestEvent>();
 
@@ -19,17 +20,30 @@ public class Quest
         Instance = this;
         
         Status = new QuestStatus();
+        Status.Date.OnMinutesPass += (int minutes) =>
+        {
+            if(Adventure != null)
+            {
+                Adventure.ProcessMinutes(minutes);
+            }
+        };
+        
         Status.Date.OnHoursPass += (int hours) =>
         {
-            if (Status.CurrentLocation == QuestLocationType.Home)
+            switch(Status.CurrentLocationType)
             {
-                QuestCard card = QuestCards.GetCardByType(QuestCardType.IsInShelter);
-
-                if (card != null)
-                {
-                    AddCard(card);
-                }
-            }
+                case QuestLocationType.Wasteland:
+                    break;
+                    
+                case QuestLocationType.Home:
+                    QuestCard card = QuestCards.GetCardByType(QuestCardType.IsInShelter);
+    
+                    if (card != null)
+                    {
+                        AddCard(card);
+                    }
+                    break;
+            };
         };
         //Process(null);
     }
@@ -37,6 +51,18 @@ public class Quest
     public void SetPause(bool value)
     {
         IsPause = value;
+    }
+    
+    public void StartAdventure(QuestLocation location)
+    {
+        Adventure = new QuestAdventure(Status.CurrentLocation, location);
+        Status.SetCurrentLocation(null);
+    }
+    
+    public void StopAdventure()
+    {
+        Status.SetCurrentLocation(Adventure.To);
+        Adventure = null;
     }
     
     public void AddStory(string message, Action callback)

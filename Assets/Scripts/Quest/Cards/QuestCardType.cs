@@ -6,5 +6,6 @@ public enum QuestCardType
 {
     Undefined,
     
-    IsInShelter
+    IsInShelter,
+    IsInWasteland
 }

@@ -11,15 +11,29 @@ public class QuestStatus
     public QuestBuildings Buildings = new QuestBuildings();
     public QuestCharacters Characters = new QuestCharacters();
 
-    public QuestLocationType CurrentLocation = QuestLocationType.Home;
+    public QuestLocation CurrentLocation { get; private set; }
+    public QuestLocationType CurrentLocationType
+    {
+        get
+        {
+            return CurrentLocation != null ? CurrentLocation.LocationType : QuestLocationType.Wasteland;
+        }
+    }
     
     public QuestStatus()
     {
+        SetCurrentLocation(Locations.Home);
+    
         Date.OnMinutesPass += ProcessMinutes;
         Date.OnHoursPass += ProcessHours;
         Date.OnDaysPass += ProcessDays;
 
         Weather.OnWeatherChange += OnWeatherChange;
+    }
+    
+    public void SetCurrentLocation(QuestLocation location)
+    {
+        CurrentLocation = location;
     }
     
     private void ProcessMinutes(int value)

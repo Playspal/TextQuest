@@ -5,14 +5,18 @@ using UnityEngine;
 public class QuestLocation
 {
     public QuestLocationType LocationType { get; protected set; }
-    public Vector2 Coordinates { get; protected set; }
+    
     public string Name { get; protected set; }
+    public Vector2 Coordinates { get; protected set; }
+    
+    public bool IsDiscovered { get; private set; }
     
     public QuestResourceType[] Resources { get; protected set;  }
     
     public QuestLocation(QuestLocationType locationType)
     {
         LocationType = locationType;
+        IsDiscovered = locationType == QuestLocationType.Home;
         
         switch(locationType)
         {

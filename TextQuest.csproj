@@ -355,6 +355,7 @@
     <Compile Include="Assets\Scripts\Quest\Locations\QuestLocationType.cs" />
     <Compile Include="Assets\Scripts\Quest\Quest.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestAction.cs" />
+    <Compile Include="Assets\Scripts\Quest\QuestAdventure.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestBoolean.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestConfig.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestDate.cs" />

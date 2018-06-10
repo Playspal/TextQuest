@@ -330,14 +330,15 @@
     <Compile Include="Assets\Scripts\Quest\Buildings\QuestBuildingSignalFire.cs" />
     <Compile Include="Assets\Scripts\Quest\Buildings\QuestBuildingState.cs" />
     <Compile Include="Assets\Scripts\Quest\Buildings\QuestBuildingType.cs" />
+    <Compile Include="Assets\Scripts\Quest\Cards\IsInShelter\QuestCardIsInShelterDeadBody.cs" />
     <Compile Include="Assets\Scripts\Quest\Cards\IsInShelter\QuestCardIsInShelterSignalFireStranger01.cs" />
     <Compile Include="Assets\Scripts\Quest\Cards\QuestCard.cs" />
-    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardCharacterDieFromStarvation.cs" />
-    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardCharacterDieFromStarvation02.cs" />
-    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardCharacterDieFromStarvation03.cs" />
+    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardLocationChurch01.cs" />
     <Compile Include="Assets\Scripts\Quest\Cards\QuestCards.cs" />
+    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardSystemStartAdventure.cs" />
     <Compile Include="Assets\Scripts\Quest\Cards\QuestCardTemplate.cs" />
     <Compile Include="Assets\Scripts\Quest\Cards\QuestCardType.cs" />
+    <Compile Include="Assets\Scripts\Quest\Cards\QuestCardWastelandStranger01.cs" />
     <Compile Include="Assets\Scripts\Quest\Characters\Effects\QuestCharacterEffect.cs" />
     <Compile Include="Assets\Scripts\Quest\Characters\Effects\QuestCharacterEffects.cs" />
     <Compile Include="Assets\Scripts\Quest\Characters\Effects\QuestCharacterEffectType.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="Assets\Scripts\Quest\Quest.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestAction.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestAdventure.cs" />
+    <Compile Include="Assets\Scripts\Quest\QuestAdventureState.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestBoolean.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestConfig.cs" />
     <Compile Include="Assets\Scripts\Quest\QuestDate.cs" />

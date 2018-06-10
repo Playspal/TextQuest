@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityExpansion.UI;
 
 public class Index : MonoBehaviour
 {
@@ -45,6 +46,14 @@ public class Index : MonoBehaviour
         if(_quest != null)
         {
             _quest.Update();
+            _quest.SetPause
+            (
+                (_quest.Adventure == null || Ui.ScreenCards.IsActive) &&
+                (
+                    UiLayout.ActiveScreen != Ui.ScreenTown ||
+                    Ui.ScreenCards.IsActive
+                )
+            );
         }
 	}
 }

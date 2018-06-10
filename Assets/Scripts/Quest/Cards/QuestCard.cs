@@ -67,11 +67,15 @@ public class QuestCard : QuestEvent
         Quest.Instance.Status.Date.AddHours(value);
     }
     
-    protected virtual void UpdateResource(QuestResourceType type, int value)
+    protected virtual bool UpdateResource(QuestResourceType type, int value)
     {
-        _updatedResources.Add(new QuestResource(type, value));
+        if(Quest.Instance.Status.Resources.Update(type, value))
+        {
+            _updatedResources.Add(new QuestResource(type, value));
+            return true;
+        }
 
-        Quest.Instance.Status.Resources.Update(type, value);
+        return false;
     }
 
     public virtual void Begin()

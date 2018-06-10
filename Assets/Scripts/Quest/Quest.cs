@@ -30,18 +30,14 @@ public class Quest
         
         Status.Date.OnHoursPass += (int hours) =>
         {
+            
             switch(Status.CurrentLocationType)
             {
                 case QuestLocationType.Wasteland:
                     break;
                     
                 case QuestLocationType.Home:
-                    QuestCard card = QuestCards.GetCardByType(QuestCardType.IsInShelter);
-    
-                    if (card != null)
-                    {
-                        AddCard(card);
-                    }
+                    GenerateCard(QuestCardType.IsInShelter, false);
                     break;
             };
         };
@@ -53,16 +49,46 @@ public class Quest
         IsPause = value;
     }
     
-    public void StartAdventure(QuestLocation location)
+    public void StartAdventure(QuestLocation location, List<QuestCharacter> characters)
     {
-        Adventure = new QuestAdventure(Status.CurrentLocation, location);
+        Adventure = new QuestAdventure(Status.Locations.Home, location, characters);
+        Adventure.OnAdventureFinished += StopAdventure;
+        Adventure.OnTargetReached += () =>
+        {
+            Status.SetCurrentLocation(Adventure.To);
+            
+            Adventure.To.SetAsDiscovered();
+            Adventure.To.ProcessStory();
+            
+            Status.SetCurrentLocation(null);
+        };
+
+        Adventure.OnNearToShelter += () => AddStory("Случайное событие рядом с лагерем", null);
+        Adventure.OnRandomEvent += () => GenerateCard(QuestCardType.IsInWasteland, true);
+        
         Status.SetCurrentLocation(null);
     }
     
     public void StopAdventure()
     {
-        Status.SetCurrentLocation(Adventure.To);
         Adventure = null;
+        Status.SetCurrentLocation(Status.Locations.Home);
+        Ui.ScreenMap.Refresh();
+    }
+    
+    public void GenerateCard(QuestCardType type, bool showCardsScreen)
+    {
+        QuestCard card = QuestCards.GetCardByType(type);
+        
+        if (card != null)
+        {
+            AddCard(card);
+
+            if (showCardsScreen)
+            {
+                Ui.ShowScreenCards();
+            }
+        }
     }
     
     public void AddStory(string message, Action callback)
@@ -100,7 +126,7 @@ public class Quest
     }
     
     public void Update()
-    {
+    {    
         if(!IsPause)
         {
             if (Input.GetKey(KeyCode.Space))

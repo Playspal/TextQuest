@@ -19,25 +19,32 @@ public class QuestCharacters : MonoBehaviour
     {
         AddCharacterToShelter(GetNewCharacter());
     }
+    
+    public QuestCharacter FindLeader()
+    {
+        return _characters.Find(x => x.IsDead == false && x.IsInShelter == true);
+    }
 
     public List<QuestCharacter> FindAlive()
     {
         return _characters.FindAll(x => x.IsDead == false && x.IsInShelter == true);
     }
     
-    public QuestCharacter Find(QuestCharacterDeathReason? deathReason, QuestCharacterBurialType? burialType)
+    public QuestCharacter FindDead(QuestCharacterDeathReason? deathReason, QuestCharacterBurialType? burialType)
     {
-        List<QuestCharacter> questCharacter = FindAll(deathReason, burialType);
+        List<QuestCharacter> questCharacter = FindDeadAll(deathReason, burialType);
         return questCharacter.Count > 0 ? questCharacter[0] : null;
     }
     
-    public List<QuestCharacter> FindAll(QuestCharacterDeathReason? deathReason, QuestCharacterBurialType? burialType)
+    public List<QuestCharacter> FindDeadAll(QuestCharacterDeathReason? deathReason, QuestCharacterBurialType? burialType)
     {
         if(deathReason != null && burialType != null)
         {
             return _characters.FindAll
             (
                 x =>
+                x.IsDead == true &&
+                x.IsInShelter == true &&
                 x.DeathReason == deathReason &&
                 x.BurialType == burialType
             );
@@ -45,7 +52,13 @@ public class QuestCharacters : MonoBehaviour
         
         if(deathReason == null && burialType != null)
         {
-            return _characters.FindAll(x => x.BurialType == burialType);
+            return _characters.FindAll
+            (
+                x =>
+                x.IsDead == true &&
+                x.IsInShelter == true &&
+                x.BurialType == burialType
+            );
         }
 
         return new List<QuestCharacter>();

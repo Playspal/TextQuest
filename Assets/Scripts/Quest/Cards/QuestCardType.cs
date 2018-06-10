@@ -6,6 +6,10 @@ public enum QuestCardType
 {
     Undefined,
     
+    System,
+    
     IsInShelter,
-    IsInWasteland
+    IsNearToShelter,
+    IsInWasteland,
+    IsInLocation
 }

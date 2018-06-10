@@ -12,6 +12,7 @@ public class QuestCharacter
 
     public bool IsInShelter = false;
     public bool IsDead = false;
+    public bool IsInAdventure { get; private set; }
 
     public QuestCharacterDeathReason DeathReason = QuestCharacterDeathReason.Unknown;
     public QuestCharacterBurialType BurialType = QuestCharacterBurialType.None;
@@ -22,6 +23,11 @@ public class QuestCharacter
     public QuestCharacterStatusWater StatusWater = new QuestCharacterStatusWater(100);
     public QuestCharacterStatusFood StatusFood = new QuestCharacterStatusFood(100);
     public QuestCharacterStatusStamina StatusStamina = new QuestCharacterStatusStamina(100);
+    
+    public void SetIsInAdventure(bool value)
+    {
+        IsInAdventure = value;
+    }
     
     public void SetBurialType(QuestCharacterBurialType value)
     {

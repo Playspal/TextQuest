@@ -86,53 +86,24 @@ public static class Ui
     public static void ShowScreenCards()
     {
         ScreenCards.Show();
-        
-        ScreenTown.Hide();
-        ScreenMap.Hide();
-        ScreenPopulation.Hide();
-        
         PanelFooter.Hide();
-
-        Quest.Instance.SetPause(true);
-        //ControllerRain.Instance.gameObject.SetActive(true);
     }
     
     public static void ShowScreenTown()
     {
-        ScreenTown.Show();
+        UiLayout.SetActiveScreen(ScreenTown);
         PanelFooter.Show();
-     
-        //ScreenCards.Hide();
-        ScreenMap.Hide();
-        ScreenPopulation.Hide();
-        
-        Quest.Instance.SetPause(false);
-        //ControllerRain.Instance.gameObject.SetActive(true);
     }
 
     public static void ShowScreenMap()
     {
-        ScreenMap.Show();
+        UiLayout.SetActiveScreen(ScreenMap);
         PanelFooter.Show();
-        
-        //ScreenCards.Hide();
-        ScreenTown.Hide();
-        ScreenPopulation.Hide();
-        
-        Quest.Instance.SetPause(true);
-        //ControllerRain.Instance.gameObject.SetActive(false);
     }
     
     public static void ShowScreenPopulation()
     {
-        ScreenPopulation.Show();
+        UiLayout.SetActiveScreen(ScreenPopulation);
         PanelFooter.Show();
-        
-        //ScreenCards.Hide();
-        ScreenTown.Hide();
-        ScreenMap.Hide();
-        
-        Quest.Instance.SetPause(true);
-        //ControllerRain.Instance.gameObject.SetActive(false);
     }
 }

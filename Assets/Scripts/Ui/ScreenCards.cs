@@ -22,6 +22,18 @@ public class ScreenCards : UiLayoutElementScreen
 	{
 		base.ShowBegin();
 
+        ProcessQueue();
+	}
+
+	protected override void Update()
+	{
+		base.Update();
+
+        ProcessQueue();
+	}
+
+	private void ProcessQueue()
+    {
         if(Quest.Instance == null)
         {
             return;
@@ -43,7 +55,7 @@ public class ScreenCards : UiLayoutElementScreen
         }
 
         Quest.Instance.Queue = new List<QuestEvent>();
-	}
+    }
 
 	public void SetupCard(QuestCard card)
     {
@@ -60,7 +72,8 @@ public class ScreenCards : UiLayoutElementScreen
         {
             if (_cards.Count <= 1)
             {
-                Ui.ShowScreenTown();
+                //Ui.ShowScreenTown();
+                Ui.PanelFooter.Show();
             }
         };
         
@@ -93,7 +106,8 @@ public class ScreenCards : UiLayoutElementScreen
         {
             if (_cards.Count <= 1)
             {
-                Ui.ShowScreenTown();
+                //Ui.ShowScreenTown();
+                Ui.PanelFooter.Show();
             }
         };
         
@@ -110,11 +124,6 @@ public class ScreenCards : UiLayoutElementScreen
         _cards.Add(cardScreen);
     }
 
-	protected override void Awake()
-	{
-		base.Awake();
-	}
-    
     private void OnCardButtonClick(int index)
     {
     }

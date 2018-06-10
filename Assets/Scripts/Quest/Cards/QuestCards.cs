@@ -7,8 +7,14 @@ public static class QuestCards
 {
     public static List<QuestCard> Cards = new List<QuestCard>()
     {
+        new QuestCardSystemStartAdventure(),
+    
         new QuestCardIsInShelterSignalFireStranger01(),
-        new QuestCardCharacterDieFromStarvation()
+        new QuestCardIsInShelterDeadBody(),
+        
+        new QuestCardWastelandStranger01(),
+        
+        new QuestCardLocationChurch01(),
     };
     
     public static QuestCard GetRandomCard()

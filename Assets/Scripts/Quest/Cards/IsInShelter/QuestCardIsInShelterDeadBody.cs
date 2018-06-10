@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class QuestCardCharacterDieFromStarvation : QuestCard
+public class QuestCardIsInShelterDeadBody : QuestCard
 {
     private QuestCharacter _character;
 
@@ -13,7 +13,7 @@ public class QuestCardCharacterDieFromStarvation : QuestCard
     {
         return
         (
-            Quest.Instance.Status.Characters.Find(QuestCharacterDeathReason.Starvation, QuestCharacterBurialType.None) != null
+            Quest.Instance.Status.Characters.FindDead(null, QuestCharacterBurialType.None) != null
         );
     }
 
@@ -24,15 +24,10 @@ public class QuestCardCharacterDieFromStarvation : QuestCard
     
     public override string GetQuestion()
     {
-        _character = Quest.Instance.Status.Characters.Find
-        (
-            QuestCharacterDeathReason.Starvation,
-            QuestCharacterBurialType.None
-        );
-        
+        _character = Quest.Instance.Status.Characters.FindDead(null, QuestCharacterBurialType.None);
         _character.SetBurialType(QuestCharacterBurialType.Unknown);
         
-        return _character.Name + " умер от голода. Нужно что-то сделать с телом";
+        return _character.Name + " умер. Нужно что-то сделать с телом";
     }
 
 	public override QuestAction GetAction1()
@@ -113,7 +108,7 @@ public class QuestCardCharacterDieFromStarvation : QuestCard
     
     private QuestAction GetActionLeftOutsideOfShelter()
     {
-        List<QuestCharacter> charactersOutsideOfShelter = Quest.Instance.Status.Characters.FindAll(null, QuestCharacterBurialType.LeftOutsideOfShelter);
+        List<QuestCharacter> charactersOutsideOfShelter = Quest.Instance.Status.Characters.FindDeadAll(null, QuestCharacterBurialType.LeftOutsideOfShelter);
 
         string action = "";
         string answer = "";

@@ -27,6 +27,12 @@ public class UiCardSimple : UiCard
     
     private void SetupCardAnswer(string value, Action callback)
     {
+        if(string.IsNullOrEmpty(value))
+        {
+            Drop();
+            return;
+        }
+    
         _back.SetMessage(value);
 
         OnRemoved += callback;

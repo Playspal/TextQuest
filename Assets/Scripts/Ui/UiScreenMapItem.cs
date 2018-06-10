@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,14 +14,15 @@ public class UiScreenMapItem : UiObject
 
     [SerializeField]
     private List<Image> _resources;
-    
+
+    public Action<UiScreenMapItem> OnClick;
     public QuestLocation Location { get; private set; }
 
 	protected override void Awake()
 	{
 		base.Awake();
 
-        UiEvents.AddClickListener(gameObject, OnClick);
+        UiEvents.AddClickListener(gameObject, OnIconClick);
 	}
 
 	public void SetData(QuestLocation questLocation)
@@ -59,23 +60,21 @@ public class UiScreenMapItem : UiObject
         }
     }
     
-    private void OnClick()
+    private void OnIconClick()
     {
-        if(Location.IsDiscovered)
+        OnClick.InvokeIfNotNull(this);
+    
+        if(Location.LocationType == QuestLocationType.Home)
         {
+            // TODO: show info about home
+            return;
         }
-        else
-        {
-            UiPopupConfirm popup = Ui.ShowPopupConfirm();
 
-            popup.OnOk += () => Quest.Instance.StartAdventure(Location);
-            popup.SetData
-            (
-                "РАЗВЕДКА",
-                "Эта локация еще не разведана. Отправиться на разведку?",
-                "ДА",
-                "НЕТ"
-            );
-        }
+        QuestCardSystemStartAdventure card = QuestCards.GetCard<QuestCardSystemStartAdventure>() as QuestCardSystemStartAdventure;
+
+        card.SetLocation(Location);
+
+        Quest.Instance.AddCard(card);
+        Ui.ShowScreenCards();
     }
 }

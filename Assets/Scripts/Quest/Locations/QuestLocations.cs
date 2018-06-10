@@ -25,12 +25,22 @@ public class QuestLocations
     
     private QuestLocation CreateRandom()
     {
-        Array types = QuestLocationType.GetValues(typeof(QuestLocationType));
-        QuestLocationType type = QuestLocationType.Home;
+        Array types = Enum.GetValues(typeof(QuestLocationType));
+        QuestLocationType type = QuestLocationType.Wasteland;
         
-        while(type == QuestLocationType.Home)
+        while(type == QuestLocationType.Wasteland)
         {
-            type = (QuestLocationType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            QuestLocationType typeNew = (QuestLocationType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            switch(typeNew)
+            {
+                case QuestLocationType.Home:
+                case QuestLocationType.Wasteland:
+                    break;
+                    
+                default:
+                    type = typeNew;
+                    break;
+            }
         }
 
         return Create(type, GenerateRandomPosition());

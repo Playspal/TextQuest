@@ -10,7 +10,7 @@ public class QuestResources
 
     // General resources
     public QuestResource Food = new QuestResource(QuestResourceType.Food, 5);
-    public QuestResource Water = new QuestResource(QuestResourceType.Water, 5);
+    public QuestResource Water = new QuestResource(QuestResourceType.Water, 50);
     public QuestResource Weapon = new QuestResource(QuestResourceType.Weapon, 1);
     public QuestResource Beds = new QuestResource(QuestResourceType.Beds, 0);
 
@@ -41,14 +41,16 @@ public class QuestResources
     /// <summary>
     /// Change amount of resource with specified type
     /// </summary>
-    public void Update(QuestResourceType type, int value)
+    public bool Update(QuestResourceType type, int value)
     {
         QuestResource questResource = GetResourceByType(type);
 
         if (questResource != null)
         {
-            questResource.Update(value);
+            return questResource.Update(value);
         }
+
+        return false;
     }
     
     /// <summary>

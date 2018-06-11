@@ -99,7 +99,12 @@ public class QuestCard : QuestEvent
             }
         );
         
-        OnAnswerResources(_updatedResources.ToArray());        
-        OnNextCardChoosen.InvokeIfNotNull(nextCard);
+        OnAnswerResources(_updatedResources.ToArray());
+        //OnNextCardChoosen.InvokeIfNotNull(nextCard);
+
+        if (nextCard != null)
+        {
+            Quest.Instance.AddCard(nextCard);
+        }
     }
 }

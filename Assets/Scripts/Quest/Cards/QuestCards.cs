@@ -8,6 +8,7 @@ public static class QuestCards
     public static List<QuestCard> Cards = new List<QuestCard>()
     {
         new QuestCardSystemStartAdventure(),
+        new QuestCardSystemStartAdventureConfirm01(),
     
         new QuestCardIsInShelterSignalFireStranger01(),
         new QuestCardIsInShelterDeadBody(),

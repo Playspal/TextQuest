@@ -12,7 +12,7 @@ public class QuestAdventure
 
     public QuestLocation From { get; private set; }
     public QuestLocation To { get; private set; }
-    public readonly List<QuestCharacter> Characters;
+    public readonly QuestCharactersGroup Characters;
 
     /// <summary>
     /// Minutes left to arrive to destination
@@ -27,19 +27,23 @@ public class QuestAdventure
     private bool _isRandomEventDispathed = false;
     private bool _isNearToShelterDispathed = false;
 
-    public QuestAdventure(QuestLocation a, QuestLocation b, List<QuestCharacter> characters)
+    public QuestAdventure(QuestLocation a, QuestLocation b, QuestCharactersGroup characters)
     {        
         Characters = characters;
-
-        for (int i = 0; i < Characters.Count; i++)
-        {
-            Characters[i].SetIsInAdventure(true);
-        }
+        SetCharactersStatus(true);
         
         _locationA = a;
         _locationB = b;
 
         GotoB();
+    }
+
+    private void SetCharactersStatus(bool isInAdventure)
+    {
+        for (int i = 0; i < Characters.Count; i++)
+        {
+            Characters.Get(i).SetIsInAdventure(isInAdventure);
+        }
     }
 
     private void GotoA()
@@ -78,6 +82,7 @@ public class QuestAdventure
             }
             else if(To == _locationA)
             {
+                SetCharactersStatus(false);
                 OnAdventureFinished.InvokeIfNotNull();
             }
         }

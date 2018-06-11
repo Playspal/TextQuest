@@ -5,5 +5,6 @@ using UnityEngine;
 public enum QuestCharacterEffectType
 {
     Starvation,
-    Thirst
+    Thirst,
+    Debilitation
 }

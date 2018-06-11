@@ -18,15 +18,14 @@ public class QuestCharacter
     public QuestCharacterBurialType BurialType = QuestCharacterBurialType.None;
 
     public QuestCharacterEffects Effects = new QuestCharacterEffects();
-
-    public QuestCharacterStatusHealth StatusHealth = new QuestCharacterStatusHealth(100);
-    public QuestCharacterStatusWater StatusWater = new QuestCharacterStatusWater(100);
-    public QuestCharacterStatusFood StatusFood = new QuestCharacterStatusFood(100);
-    public QuestCharacterStatusStamina StatusStamina = new QuestCharacterStatusStamina(100);
+    public QuestCharacterStatuses Statuses = new QuestCharacterStatuses();
     
     public void SetIsInAdventure(bool value)
     {
         IsInAdventure = value;
+
+        Statuses.Water.SetRefillEnabled(!value);
+        Statuses.Food.SetRefillEnabled(!value);
     }
     
     public void SetBurialType(QuestCharacterBurialType value)
@@ -38,6 +37,11 @@ public class QuestCharacter
     {
         QuestBuilding building = Quest.Instance.Status.Buildings.GetBuildingByWorker(this);
         return building != null ? building.DescriptionJob : "Ничем не занят";
+    }
+    
+    public int GetInventorySize()
+    {
+        return 1 + Mathf.CeilToInt(4f * Statuses.Stamina.ValueNormalized);
     }
     
     public void SetEffect(QuestCharacterEffectType effectType, bool value)
@@ -73,23 +77,13 @@ public class QuestCharacter
             return;
         }
 
-        StatusWater.Process();
-        StatusFood.Process();
+        Statuses.Process(IsInAdventure);
         
-        SetEffect(QuestCharacterEffectType.Thirst, StatusWater.IsCritical);
-        SetEffect(QuestCharacterEffectType.Starvation, StatusFood.IsCritical);
+        SetEffect(QuestCharacterEffectType.Thirst, Statuses.Water.IsCritical);
+        SetEffect(QuestCharacterEffectType.Starvation, Statuses.Food.IsCritical);
+        SetEffect(QuestCharacterEffectType.Debilitation, Statuses.Stamina.IsCritical);
 
-        if(StatusWater.IsCritical)
-        {
-            StatusHealth.Update(-2);
-        }
-        
-        if(StatusFood.IsCritical)
-        {
-            StatusHealth.Update(-1);
-        }
-
-        if(StatusHealth.IsCritical)
+        if(Statuses.Health.IsCritical)
         {
             IsDead = true;
             
@@ -100,6 +94,10 @@ public class QuestCharacter
             else if(Effects.Contains(QuestCharacterEffectType.Starvation))
             {
                 DeathReason = QuestCharacterDeathReason.Starvation;
+            }
+            else if(Effects.Contains(QuestCharacterEffectType.Debilitation))
+            {
+                DeathReason = QuestCharacterDeathReason.Debilitation;
             }
 
             OnDeath.InvokeIfNotNull(this);

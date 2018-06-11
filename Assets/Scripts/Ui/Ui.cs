@@ -68,6 +68,18 @@ public static class Ui
         return popup;
     }
     
+    public static UiPopupAssignExpedition ShowPopupAssignExpedition(QuestLocation location)
+    {
+        UiPopupAssignExpedition popup = UiLayout.CreatePopup("Ui/PopupAssignExpedition") as UiPopupAssignExpedition;
+
+        popup.SetLocation(location);
+        
+        popup.OnShowBegin += () => Quest.Instance.SetPause(true);
+        popup.OnHideBegin += () => Quest.Instance.SetPause(false);
+
+        return popup;
+    }
+    
     public static UiPopupConfirm ShowPopupNotEnoughResources(string message)
     {
         UiPopupConfirm popupConfirm = Ui.ShowPopupConfirm();

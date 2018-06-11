@@ -79,7 +79,7 @@ public class QuestCardIsInShelterDeadBody : QuestCard
             
                 if(Quest.Instance.Status.Characters.FindAlive().Count > 1)
                 {
-                    End("Мы облили тело бензином и подожгли. От запаха обгоревшей плоти " + Quest.Instance.Status.Characters.FindAlive()[1].Name + " проблевался.");
+                    End("Мы облили тело бензином и подожгли. От запаха обгоревшей плоти " + Quest.Instance.Status.Characters.FindAlive().Get(1).Name + " проблевался.");
                 }
                 else
                 {
@@ -108,7 +108,7 @@ public class QuestCardIsInShelterDeadBody : QuestCard
     
     private QuestAction GetActionLeftOutsideOfShelter()
     {
-        List<QuestCharacter> charactersOutsideOfShelter = Quest.Instance.Status.Characters.FindDeadAll(null, QuestCharacterBurialType.LeftOutsideOfShelter);
+        QuestCharactersGroup charactersOutsideOfShelter = Quest.Instance.Status.Characters.FindDeadAll(null, QuestCharacterBurialType.LeftOutsideOfShelter);
 
         string action = "";
         string answer = "";
@@ -122,7 +122,7 @@ public class QuestCardIsInShelterDeadBody : QuestCard
         if(charactersOutsideOfShelter.Count == 1)
         {
             action = "Выбросить тело рядом с лагерем";
-            answer = "Я бросил тело в небольшую яму рядом с лагерем. " + charactersOutsideOfShelter[0].Name + " и " + _character.Name + " будут гнить вместе.";
+            answer = "Я бросил тело в небольшую яму рядом с лагерем. " + charactersOutsideOfShelter.Get(0).Name + " и " + _character.Name + " будут гнить вместе.";
         }
         
         if(charactersOutsideOfShelter.Count >= 2)
@@ -141,13 +141,13 @@ public class QuestCardIsInShelterDeadBody : QuestCard
                     }
                     else
                     {
-                        names += " и " + charactersOutsideOfShelter[i].Name;
+                        names += " и " + charactersOutsideOfShelter.Get(i).Name;
                     }
                 }
                 else
                 {
                     names += string.IsNullOrEmpty(names) == false ? ", " : "";
-                    names += charactersOutsideOfShelter[i].Name;
+                    names += charactersOutsideOfShelter.Get(i).Name;
                 }
             }
             

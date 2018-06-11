@@ -8,6 +8,8 @@ public enum QuestCardType
     
     System,
     
+    StartAdventure,
+    
     IsInShelter,
     IsNearToShelter,
     IsInWasteland,

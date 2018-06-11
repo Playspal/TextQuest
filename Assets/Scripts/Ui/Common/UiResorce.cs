@@ -53,6 +53,9 @@ public class UiResorce : UiObject
                 
             case QuestResourceType.Wood:
                 return root + "ui-icon-wood";
+                
+            case QuestResourceType.Gas:
+                return root + "ui-icon-gas";
         }
 
         return null;

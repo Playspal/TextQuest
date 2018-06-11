@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class QuestCharacterStatus
 {
+    public QuestCharacterStatusType StatusType { get; protected set; }
+
     public int Value
     {
         get
@@ -17,6 +19,14 @@ public class QuestCharacterStatus
         }
     }
     
+    public float ValueNormalized
+    {
+        get
+        {
+            return (float)Value / 100f;
+        }
+    }
+    
     public bool IsCritical
     {
         get
@@ -26,6 +36,7 @@ public class QuestCharacterStatus
     }
 
     private int _value;
+    protected bool _refillEnabled = true;
     
     public QuestCharacterStatus()
     {
@@ -35,6 +46,11 @@ public class QuestCharacterStatus
     public QuestCharacterStatus(int value)
     {
         Value = value;
+    }
+    
+    public virtual void SetRefillEnabled(bool value)
+    {
+        _refillEnabled = value;
     }
     
     public virtual void Update(int value)

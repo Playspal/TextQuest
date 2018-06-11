@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityExpansion.UI;
 
-public class UiPopupAssignWorker : UiLayoutElementPopup
+public class UiPopupAssignExpedition : UiLayoutElementPopup
 {
     [SerializeField]
     private UiVerticalList _verticalList;
@@ -15,27 +15,31 @@ public class UiPopupAssignWorker : UiLayoutElementPopup
     [SerializeField]
     private UiButton _buttonClose;
 
-    private QuestBuilding _questBuilding;
+    [SerializeField]
+    private UiButton _buttonConfirm;
 
-	protected override void Awake()
-	{
-		base.Awake();
+    private List<QuestCharacter> _characters = new List<QuestCharacter>();
+    private QuestLocation _location;
+
+    protected override void Awake()
+    {
+        base.Awake();
 
         _buttonClose.OnClick += Hide;
         _buttonClose.SetCaption("ЗАКРЫТЬ");
 
-        _title.text = "НАЗНАЧИТЬ РАБОТНИКА";
-	}
-
-    public void SetBuilding(QuestBuilding building)
+        _title.text = "НАЧАТЬ ЭКСПЕДИЦИЮ";
+    }
+    
+    public void SetLocation(QuestLocation location)
     {
-        _questBuilding = building;
-        
+        _location = location;
+
         Refresh();
         RefreshSelection();
     }
 
-	protected override void ShowBegin()
+    protected override void ShowBegin()
     {
         base.ShowBegin();
     }
@@ -48,7 +52,7 @@ public class UiPopupAssignWorker : UiLayoutElementPopup
 
         for (int i = 0; i < characters.Count; i++)
         {
-            UiPopupAssignWorkerItem item = _verticalList.CreateItem<UiPopupAssignWorkerItem>();
+            UiPopupAssignExpeditionItem item = _verticalList.CreateItem<UiPopupAssignExpeditionItem>();
             item.SetData(characters.Get(i));
             item.OnClick += OnItemClick;
         }
@@ -60,22 +64,24 @@ public class UiPopupAssignWorker : UiLayoutElementPopup
 
         for (int i = 0; i < items.Count; i++)
         {
-            UiPopupAssignWorkerItem item = items[i] as UiPopupAssignWorkerItem;
+            UiPopupAssignExpeditionItem item = items[i] as UiPopupAssignExpeditionItem;
         
-            item.SetSelected(_questBuilding.Worker == item.QuestCharacter);
+            item.SetSelected(_characters.Contains(item.QuestCharacter));
             item.Refresh();
         }
     }
     
-    private void OnItemClick(UiPopupAssignWorkerItem item)
+    private void OnItemClick(UiPopupAssignExpeditionItem item)
     {
-        if (_questBuilding.Worker == item.QuestCharacter)
+        QuestCharacter character = item.QuestCharacter;
+
+        if(_characters.Contains(character))
         {
-            _questBuilding.SetWorker(null);
+            _characters.Remove(character);
         }
         else
         {
-            _questBuilding.SetWorker(item.QuestCharacter);
+            _characters.Add(character);
         }
         
         RefreshSelection();

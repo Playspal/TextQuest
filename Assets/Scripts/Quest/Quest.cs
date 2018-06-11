@@ -30,6 +30,10 @@ public class Quest
         
         Status.Date.OnHoursPass += (int hours) =>
         {
+            if(Status.Weather.Weather == QuestWeather.Type.Rain)
+            {
+                Status.Resources.Update(QuestResourceType.Water, +1);
+            }
             
             switch(Status.CurrentLocationType)
             {
@@ -49,7 +53,7 @@ public class Quest
         IsPause = value;
     }
     
-    public void StartAdventure(QuestLocation location, List<QuestCharacter> characters)
+    public void StartAdventure(QuestLocation location, QuestCharactersGroup characters)
     {
         Adventure = new QuestAdventure(Status.Locations.Home, location, characters);
         Adventure.OnAdventureFinished += StopAdventure;
@@ -63,7 +67,11 @@ public class Quest
             Status.SetCurrentLocation(null);
         };
 
-        Adventure.OnNearToShelter += () => AddStory("Случайное событие рядом с лагерем", null);
+        Adventure.OnNearToShelter += () =>
+        {
+            AddStory("Случайное событие рядом с лагерем", null);
+            Ui.ShowScreenCards();
+        };
         Adventure.OnRandomEvent += () => GenerateCard(QuestCardType.IsInWasteland, true);
         
         Status.SetCurrentLocation(null);
@@ -76,7 +84,7 @@ public class Quest
         Ui.ScreenMap.Refresh();
     }
     
-    public void GenerateCard(QuestCardType type, bool showCardsScreen)
+    public bool GenerateCard(QuestCardType type, bool showCardsScreen)
     {
         QuestCard card = QuestCards.GetCardByType(type);
         
@@ -88,7 +96,11 @@ public class Quest
             {
                 Ui.ShowScreenCards();
             }
+
+            return true;
         }
+
+        return false;
     }
     
     public void AddStory(string message, Action callback)

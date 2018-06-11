@@ -6,5 +6,6 @@ public class QuestCharacterStatusHealth : QuestCharacterStatus
 {
     public QuestCharacterStatusHealth(int value) : base(value)
     {
+        StatusType = QuestCharacterStatusType.Health;
     }
 }

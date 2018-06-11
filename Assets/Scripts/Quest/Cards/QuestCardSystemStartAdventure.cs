@@ -36,52 +36,46 @@ public class QuestCardSystemStartAdventure : QuestCard
 
 	public override QuestAction GetAction1()
 	{
-		return new QuestAction
-        (
-            "Отправиться одному",
-            ()=>
-            {
-                if(UpdateResource(QuestResourceType.Water, -_location.GetRequiredWater(1)))
-                {
-                    Quest.Instance.StartAdventure
-                    (
-                        _location,
-                        new List<QuestCharacter>()
-                        {
-                            Quest.Instance.Status.Characters.FindLeader()
-                        }
-                    );
-                    End("Я пошел один");
-                }
-                else
-                {
-                    End("Не хватает воды");
-                }
-            }
-        );
-	}
-
-	public override QuestAction GetAction2()
-	{
         return new QuestAction
         (
-            "Отправиться всей группой",
+            "Отправить экспедицию",
             ()=>
             {
-                if(UpdateResource(QuestResourceType.Water, -_location.GetRequiredWater(Quest.Instance.Status.Characters.FindAlive().Count)))
+                QuestCharactersGroup groupAlive = Quest.Instance.Status.Characters.FindAlive();
+                QuestCharactersGroup groupReadyForAdventure = groupAlive.FindAllWhoReadyForAdventure();
+
+                if (groupReadyForAdventure.Count < groupAlive.Count)
                 {
-                    Quest.Instance.StartAdventure
-                    (
-                        _location,
-                        Quest.Instance.Status.Characters.FindAlive()
-                    );
-                    End("Мы пошли всей кодлой");
+                        QuestCardSystemStartAdventureConfirm01 card = QuestCards.GetCard<QuestCardSystemStartAdventureConfirm01>() as QuestCardSystemStartAdventureConfirm01;
+                        card.SetLocation(_location);
+                        
+                        End(null, card);
                 }
                 else
                 {
-                    End("Не хватает воды");
+                    if (UpdateResource(QuestResourceType.Water, -_location.GetRequiredWater(groupAlive.Count)))
+                    {
+                        Quest.Instance.StartAdventure(_location, groupAlive);
+                        End("Экспедиция отправилась в путь. Если все сложится удачно, мы сможем принести " + groupAlive.GetInventorySize() + " ресурсов.");
+                    }
+                    else
+                    {
+                        End("Не хватает воды");
+                    }
                 }
             }
         );
 	}
+    
+    public override QuestAction GetAction2()
+    {
+        return new QuestAction
+        (
+            "Остаться в лагере",
+            ()=>
+            {
+                End("У нас еще много дел в лагере");
+            }
+        );
+    }
 }

@@ -15,6 +15,7 @@ public class QuestCharacterStatusFood : QuestCharacterStatus
     
     public QuestCharacterStatusFood(int value) : base(value)
     {
+        StatusType = QuestCharacterStatusType.Food;
     }
 
 	public override void Process()
@@ -31,6 +32,11 @@ public class QuestCharacterStatusFood : QuestCharacterStatus
 
 	public override void RefillUsingResource()
 	{
+        if(!_refillEnabled)
+        {
+            return;
+        }
+    
 		base.RefillUsingResource();
         
         if(Quest.Instance.Status.Resources.Food.Update(-1))

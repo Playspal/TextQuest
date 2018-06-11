@@ -16,14 +16,14 @@ public class UiScreenPopulation : UiLayoutElementScreen
 
 	private void Refresh()
     {
-        List<QuestCharacter> characters = Quest.Instance.Status.Characters.FindAlive();
+        QuestCharactersGroup characters = Quest.Instance.Status.Characters.FindAlive();
     
         _verticalList.Clear();
 
         for (int i = 0; i < characters.Count; i++)
         {
             UiScreenPopulationItem item = _verticalList.CreateItem<UiScreenPopulationItem>();
-            item.SetData(characters[i]);
+            item.SetData(characters.Get(i));
         }
     }
 }

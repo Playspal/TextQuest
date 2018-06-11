@@ -18,6 +18,7 @@ public class QuestCharacterStatusWater : QuestCharacterStatus
     
     public QuestCharacterStatusWater(int value) : base(value)
     {
+        StatusType = QuestCharacterStatusType.Water;
     }
     
 	public override void Process()
@@ -41,6 +42,11 @@ public class QuestCharacterStatusWater : QuestCharacterStatus
 
 	public override void RefillUsingResource()
 	{
+        if(!_refillEnabled)
+        {
+            return;
+        }
+        
 		base.RefillUsingResource();
         
         if(Quest.Instance.Status.Resources.Water.Update(-1))

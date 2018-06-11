@@ -43,7 +43,7 @@ public class QuestLocation
 
             switch(LocationType)
             {
-                case QuestLocationType.Church:
+                case QuestLocationType.Church :
                     Quest.Instance.AddStory("Мы дошли до точки назначения. Это оказалась старая церковь", null);
                     break;
             }
@@ -53,16 +53,31 @@ public class QuestLocation
         }        
     }
     
-    public void ProcessStory()
+    public virtual void ProcessStory()
     {
-        GetLoot();
-        //Quest.Instance.GenerateCard(QuestCardType.IsInLocation, true);
+        if(Quest.Instance.GenerateCard(QuestCardType.IsInLocation, true))
+        {
+        }
+        else
+        {
+            GetLoot();
+        }
     }
     
-    public void GetLoot()
+    public void GetLoot(string message = null)
     {
-        Quest.Instance.Status.Resources.Update(QuestResourceType.Food, +5);
-        Quest.Instance.AddStory("Обыскав всю локацию нам удалось найти немного ресурсов", null);
+        if(string.IsNullOrEmpty(message))
+        {
+            message = "Обыскав всю локацию нам удалось найти немного ресурсов";
+        }
+    
+        Quest.Instance.Status.Resources.Update
+        (
+            QuestResourceType.Food,
+            +5 * Quest.Instance.Status.Characters.FindAliveAdventurers().Count
+        );
+        Quest.Instance.AddStory(message, null);
+        
         Ui.ShowScreenCards();
     }
     

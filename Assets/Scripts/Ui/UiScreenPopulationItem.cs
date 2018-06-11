@@ -24,12 +24,17 @@ public class UiScreenPopulationItem : UiVerticalListItem
 
         if(questCharacter.Effects.Contains(QuestCharacterEffectType.Starvation))
         {
-            effects.Add("Страдает от голода");
+            effects.Add("Голод");
         }
         
         if(questCharacter.Effects.Contains(QuestCharacterEffectType.Thirst))
         {
-            effects.Add("Страдает от жажды");
+            effects.Add("Жажда");
+        }
+        
+        if(questCharacter.Effects.Contains(QuestCharacterEffectType.Debilitation))
+        {
+            effects.Add("Изнеможение");
         }
 
         string effectsString = effects.Count == 0 ? "Нет активных эффектов" : string.Empty;

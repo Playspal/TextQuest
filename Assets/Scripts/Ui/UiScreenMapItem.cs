@@ -69,6 +69,9 @@ public class UiScreenMapItem : UiObject
             // TODO: show info about home
             return;
         }
+        
+        //UiPopupAssignExpedition popup = Ui.ShowPopupAssignExpedition(Location);
+        //return;
 
         QuestCardSystemStartAdventure card = QuestCards.GetCard<QuestCardSystemStartAdventure>() as QuestCardSystemStartAdventure;
 

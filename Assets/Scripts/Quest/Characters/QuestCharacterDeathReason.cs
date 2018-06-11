@@ -6,5 +6,6 @@ public enum QuestCharacterDeathReason
 {
     Unknown,
     Starvation,
-    Thirst
+    Thirst,
+    Debilitation
 }

@@ -1,5 +1,9 @@
-﻿public class QuestCardLocationChurch01 : QuestCard
+﻿using System.Collections.Generic;
+
+public class QuestCardLocationChurch01 : QuestCard
 {
+    private QuestLocation _location;
+
 	public override QuestCardType GetCardType()
 	{
         return QuestCardType.IsInLocation;
@@ -13,27 +17,35 @@
         );
     }
 
-    public override float GetCooldown()
+	public override void Begin()
+	{
+		_location = Quest.Instance.Status.CurrentLocation;
+	}
+
+	public override float GetCooldown()
     {
-        return 1;
+        return 10;
     }
     
     public override string GetQuestion()
     {
-        return "ввв";
+        return "В церкви мы обнаружили небольшую группу людей во главе со священником. Священник проводил проповедь размахивая руками и громко выкрикивая слова";
     }
 
 	public override QuestAction GetAction1()
 	{
 		return new QuestAction
         (
-            "Кнопка 1",
+            "Послушать проповедь",
             ()=>
             {
-                UpdateTime(6);
-                UpdateResource(QuestResourceType.Food, -1);
+                Quest.Instance.Status.Characters.FindAliveAdventurers().UpdateCharactersStatus(QuestCharacterStatusType.Madness, -10);
+            
+                UpdateTime(2);
 
-                End("Ответ 1");
+                End("Проповедь длилась несколько часов. После того, как она закончилась люди стали расходиться не обращая на нас внимания");
+                
+                _location.GetLoot("После того, как все ушли, мы обыскали церковный подвал и нашли немного ресурсов");
             }
         );
 	}
@@ -42,13 +54,12 @@
 	{
         return new QuestAction
         (
-            "Кнопка 2",
+            "Уйти",
             ()=>
             {
-                UpdateTime(6);
-                UpdateResource(QuestResourceType.Food, -1);
+                UpdateTime(0);
 
-                End("Ответ 2");
+                End("Мы решили не связываться с религиозными фанатиками и вернуться в лагерь");
             }
         );
 	}
